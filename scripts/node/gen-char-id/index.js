@@ -1,5 +1,6 @@
-const { writeFileSync } = require('fs');
+const path = require('path');
 const { LuaFactory } = require('wasmoon');
+const { writeFileSync, mkdirSync } = require('fs');
 
 /** 各地区数据源标识 */
 const REGIONS = ['CN', 'EN', 'JP', 'KR', 'TW'];
@@ -7,8 +8,11 @@ const REGIONS = ['CN', 'EN', 'JP', 'KR', 'TW'];
 /** 角色 id 匹配规则 只取 avg1 前缀的三位数字 */
 const CHAR_ID_PATTERN = /^avg1_(\d{3})$/;
 
-/** 各地区导出的 json 文件名 */
+/** 导出的 json 文件名 */
 const OUTPUT_FILE = 'characterid.json';
+const outputDir = path.join(process.cwd(), 'generated_data');
+mkdirSync(outputDir, { recursive: true });
+const outputPath = path.join(outputDir, 'characterid.json');
 
 /**
  * 构造某个地区的两个 lua 数据文件地址
@@ -172,9 +176,9 @@ function fillMissingNames(store) {
     applyVersions(characters, versionSets);
     fillMissingNames(characters);
 
-    writeFileSync(OUTPUT_FILE, JSON.stringify(characters, null, 2));
+    writeFileSync(outputPath, JSON.stringify(characters, null, 2));
 
-    console.log(`[done] total ${Object.keys(characters).length} written to ${OUTPUT_FILE}`);
+    console.log(`[done] total ${Object.keys(characters).length} written to ${outputPath}`);
   } finally {
     lua.global.close();
   }
