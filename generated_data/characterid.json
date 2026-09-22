@@ -1,0 +1,488 @@
+{
+  "103": {
+    "id": "103",
+    "cnName": "琥珀",
+    "enName": "Amber",
+    "jpName": "コハク",
+    "krName": "코하쿠",
+    "twName": "琥珀",
+    "ver": "1.0.0"
+  },
+  "106": {
+    "id": "106",
+    "cnName": "极光",
+    "enName": "Aeloria",
+    "jpName": "オーロラ",
+    "krName": "오로라",
+    "twName": "極光",
+    "ver": ""
+  },
+  "107": {
+    "id": "107",
+    "cnName": "缇莉娅",
+    "enName": "Tilia",
+    "jpName": "ティリア",
+    "krName": "틸리아",
+    "twName": "緹莉婭",
+    "ver": ""
+  },
+  "108": {
+    "id": "108",
+    "cnName": "卡西米拉",
+    "enName": "Kasimira",
+    "jpName": "カシミラ",
+    "krName": "카시미라",
+    "twName": "卡西米拉",
+    "ver": ""
+  },
+  "109": {
+    "id": "109",
+    "cnName": "青叶",
+    "enName": "Aobelle",
+    "jpName": "アオバ",
+    "krName": "아오바",
+    "twName": "青葉",
+    "ver": ""
+  },
+  "110": {
+    "id": "110",
+    "cnName": "翡冷翠",
+    "enName": "Firenze",
+    "jpName": "フィレン",
+    "krName": "피렌",
+    "twName": "翡冷翠",
+    "ver": ""
+  },
+  "111": {
+    "id": "111",
+    "cnName": "鸢尾",
+    "enName": "Iris",
+    "jpName": "アヤメ",
+    "krName": "아야메",
+    "twName": "鳶尾",
+    "ver": ""
+  },
+  "112": {
+    "id": "112",
+    "cnName": "尘沙",
+    "enName": "Noya",
+    "jpName": "セイナ",
+    "krName": "세이나",
+    "twName": "塵沙",
+    "ver": ""
+  },
+  "113": {
+    "id": "113",
+    "cnName": "师渺",
+    "enName": "Shimiao",
+    "jpName": "シーミャオ",
+    "krName": "시먀오",
+    "twName": "師渺",
+    "ver": ""
+  },
+  "114": {
+    "id": "114",
+    "cnName": "猫眼",
+    "enName": "Chaton",
+    "jpName": "シャトン",
+    "krName": "샤통",
+    "twName": "貓眼",
+    "ver": ""
+  },
+  "115": {
+    "id": "115",
+    "cnName": "火垂",
+    "enName": "Firefly",
+    "jpName": "ホタル",
+    "krName": "호타루",
+    "twName": "火垂",
+    "ver": ""
+  },
+  "116": {
+    "id": "116",
+    "cnName": "岭川",
+    "enName": "Ridge",
+    "jpName": "レイセン",
+    "krName": "레이센",
+    "twName": "嶺川",
+    "ver": ""
+  },
+  "117": {
+    "id": "117",
+    "cnName": "璟麟",
+    "enName": "Jinglin",
+    "jpName": "ジンリン",
+    "krName": "징린",
+    "twName": "璟麟",
+    "ver": ""
+  },
+  "118": {
+    "id": "118",
+    "cnName": "科洛妮丝",
+    "enName": "Coronis",
+    "jpName": "クルニス",
+    "krName": "크루니스",
+    "twName": "柯洛妮絲",
+    "ver": ""
+  },
+  "119": {
+    "id": "119",
+    "cnName": "花原",
+    "enName": "Nanoha",
+    "jpName": "ナノハ",
+    "krName": "나노하",
+    "twName": "花原",
+    "ver": ""
+  },
+  "120": {
+    "id": "120",
+    "cnName": "卡娜丝",
+    "enName": "Canace",
+    "jpName": "カナーチェ",
+    "krName": "카나체",
+    "twName": "卡娜絲",
+    "ver": ""
+  },
+  "123": {
+    "id": "123",
+    "cnName": "杏子",
+    "enName": "Ann",
+    "jpName": "アンズ",
+    "krName": "안즈",
+    "twName": "杏子",
+    "ver": ""
+  },
+  "125": {
+    "id": "125",
+    "cnName": "苍兰",
+    "enName": "Freesia",
+    "jpName": "フリージア",
+    "krName": "프리지아",
+    "twName": "蒼蘭",
+    "ver": ""
+  },
+  "126": {
+    "id": "126",
+    "cnName": "紫槿",
+    "enName": "Flora",
+    "jpName": "フローラ",
+    "krName": "플로라",
+    "twName": "紫槿",
+    "ver": ""
+  },
+  "127": {
+    "id": "127",
+    "cnName": "特丽莎",
+    "enName": "Teresa",
+    "jpName": "テレサ",
+    "krName": "테레사",
+    "twName": "特麗莎",
+    "ver": ""
+  },
+  "129": {
+    "id": "129",
+    "cnName": "悠贝",
+    "enName": "Yoranda",
+    "jpName": "悠贝",
+    "krName": "유베",
+    "twName": "悠貝",
+    "ver": ""
+  },
+  "130": {
+    "id": "130",
+    "cnName": "多娜",
+    "enName": "Donna",
+    "jpName": "トーナ",
+    "krName": "토나",
+    "twName": "多娜",
+    "ver": ""
+  },
+  "131": {
+    "id": "131",
+    "cnName": "布洛可",
+    "enName": "Bloc",
+    "jpName": "ブロッチ",
+    "krName": "블롯치",
+    "twName": "布洛可",
+    "ver": ""
+  },
+  "132": {
+    "id": "132",
+    "cnName": "密涅瓦",
+    "enName": "Minova",
+    "jpName": "ミネルバ",
+    "krName": "미네르바",
+    "twName": "密涅瓦",
+    "ver": ""
+  },
+  "133": {
+    "id": "133",
+    "cnName": "夏花",
+    "enName": "Nazuka",
+    "jpName": "ナツカ",
+    "krName": "나츠카",
+    "twName": "夏花",
+    "ver": ""
+  },
+  "134": {
+    "id": "134",
+    "cnName": "冬香",
+    "enName": "Fuyuka",
+    "jpName": "フユカ",
+    "krName": "후유카",
+    "twName": "冬香",
+    "ver": ""
+  },
+  "135": {
+    "id": "135",
+    "cnName": "雾语",
+    "enName": "Mistique",
+    "jpName": "ミスティ",
+    "krName": "미스티",
+    "twName": "霧語",
+    "ver": ""
+  },
+  "136": {
+    "id": "136",
+    "cnName": "安琪",
+    "enName": "Angie",
+    "jpName": "アンジュ",
+    "krName": "앙주",
+    "twName": "安琪",
+    "ver": ""
+  },
+  "137": {
+    "id": "137",
+    "cnName": "埃莉诺",
+    "enName": "Eleanor",
+    "jpName": "エレノア",
+    "krName": "엘레노어",
+    "twName": "埃莉諾",
+    "ver": ""
+  },
+  "138": {
+    "id": "138",
+    "cnName": "星雁",
+    "enName": "Nyx",
+    "jpName": "ニュクス",
+    "krName": "닉스",
+    "twName": "星雁",
+    "ver": ""
+  },
+  "139": {
+    "id": "139",
+    "cnName": "艾蕾",
+    "enName": "Allie",
+    "jpName": "エリー",
+    "krName": "엘리",
+    "twName": "艾蕾",
+    "ver": ""
+  },
+  "140": {
+    "id": "140",
+    "cnName": "斯帕克拉",
+    "enName": "Sparkla",
+    "jpName": "スパクル",
+    "krName": "스파클",
+    "twName": "斯帕克拉",
+    "ver": "1.11.0"
+  },
+  "141": {
+    "id": "141",
+    "cnName": "赤霞",
+    "enName": "Chixia",
+    "jpName": "チーシア",
+    "krName": "치시아",
+    "twName": "赤霞",
+    "ver": ""
+  },
+  "142": {
+    "id": "142",
+    "cnName": "珂赛特",
+    "enName": "Cosette",
+    "jpName": "コゼット",
+    "krName": "코제트",
+    "twName": "珂賽特",
+    "ver": ""
+  },
+  "143": {
+    "id": "143",
+    "cnName": "风影",
+    "enName": "Wraith",
+    "jpName": "レイス",
+    "krName": "레이스",
+    "twName": "風影",
+    "ver": ""
+  },
+  "144": {
+    "id": "144",
+    "cnName": "千都世",
+    "enName": "Chitose",
+    "jpName": "チトセ",
+    "krName": "치토세",
+    "twName": "千都世",
+    "ver": ""
+  },
+  "145": {
+    "id": "145",
+    "cnName": "乙叶",
+    "enName": "Otoha",
+    "jpName": "オトハ",
+    "krName": "오토하",
+    "twName": "乙葉",
+    "ver": ""
+  },
+  "146": {
+    "id": "146",
+    "cnName": "蓝锥",
+    "enName": "Benito",
+    "jpName": "ベニト",
+    "krName": "베니토",
+    "twName": "藍錐",
+    "ver": ""
+  },
+  "147": {
+    "id": "147",
+    "cnName": "焦糖",
+    "enName": "Caramel",
+    "jpName": "キャラメル",
+    "krName": "캐러멜",
+    "twName": "焦糖",
+    "ver": ""
+  },
+  "149": {
+    "id": "149",
+    "cnName": "格芮",
+    "enName": "Gerie",
+    "jpName": "グレイ",
+    "krName": "그레이",
+    "twName": "格芮",
+    "ver": ""
+  },
+  "150": {
+    "id": "150",
+    "cnName": "菈露",
+    "enName": "Laru",
+    "jpName": "ラール",
+    "krName": "라루",
+    "twName": "菈露",
+    "ver": ""
+  },
+  "151": {
+    "id": "151",
+    "cnName": "云舒",
+    "enName": "Yunshu",
+    "jpName": "ユンショ",
+    "krName": "윈슈",
+    "twName": "雲舒",
+    "ver": "1.6.0"
+  },
+  "152": {
+    "id": "152",
+    "cnName": "霁月",
+    "enName": "Jiyue",
+    "jpName": "ジーユエ",
+    "krName": "지웨",
+    "twName": "霽月",
+    "ver": "1.6.0"
+  },
+  "153": {
+    "id": "153",
+    "cnName": "丹韵",
+    "enName": "Danyun",
+    "jpName": "タンイン",
+    "krName": "단윈",
+    "twName": "丹韻",
+    "ver": "1.6.0"
+  },
+  "155": {
+    "id": "155",
+    "cnName": "希娅",
+    "enName": "Shia",
+    "jpName": "シア",
+    "krName": "시아",
+    "twName": "希婭",
+    "ver": ""
+  },
+  "156": {
+    "id": "156",
+    "cnName": "小禾",
+    "enName": "Nazuna",
+    "jpName": "ナズナ",
+    "krName": "나즈나",
+    "twName": "小禾",
+    "ver": ""
+  },
+  "157": {
+    "id": "157",
+    "cnName": "花铃",
+    "enName": "Karin",
+    "jpName": "カリン",
+    "krName": "카린",
+    "twName": "花鈴",
+    "ver": ""
+  },
+  "158": {
+    "id": "158",
+    "cnName": "菈露",
+    "enName": "Laru",
+    "jpName": "ラール",
+    "krName": "라루",
+    "twName": "菈露",
+    "ver": ""
+  },
+  "159": {
+    "id": "159",
+    "cnName": "科洛妮丝",
+    "enName": "Coronis",
+    "jpName": "クルニス",
+    "krName": "크루니스",
+    "twName": "柯洛妮絲",
+    "ver": "1.6.0"
+  },
+  "160": {
+    "id": "160",
+    "cnName": "薇洛",
+    "enName": "Willow",
+    "jpName": "ウィロー",
+    "krName": "윌로",
+    "twName": "薇洛",
+    "ver": "1.13.0"
+  },
+  "161": {
+    "id": "161",
+    "cnName": "优叶",
+    "jpName": "スグハ",
+    "krName": "스구하",
+    "twName": "優葉",
+    "ver": "2.1.0",
+    "enName": ""
+  },
+  "162": {
+    "id": "162",
+    "cnName": "",
+    "jpName": "",
+    "krName": "",
+    "twName": "",
+    "ver": "2.0.0",
+    "enName": ""
+  },
+  "163": {
+    "id": "163",
+    "cnName": "格蕾霍恩",
+    "enName": "Greyhorn",
+    "jpName": "グレースホルン",
+    "krName": "그레이스혼",
+    "twName": "格蕾霍恩",
+    "ver": "1.9.2"
+  },
+  "164": {
+    "id": "164",
+    "cnName": "朔",
+    "enName": "Shuo",
+    "jpName": "サク",
+    "krName": "사쿠",
+    "twName": "朔",
+    "ver": "1.9.0"
+  }
+}
