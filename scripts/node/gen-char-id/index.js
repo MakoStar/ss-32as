@@ -69,7 +69,7 @@ function resolveCharacterName(fallbackName, charId, contactMap, charMap, reuseId
   if (fallbackName !== '***') return fallbackName;
   const contact = contactMap.get(charId);
   if (contact?.name) return contact.name;
-  const reused = charMap.get(reuseId);
+  const reused = charMap.get(String(reuseId));
   return reused?.name ?? '';
 }
 
@@ -82,8 +82,8 @@ function resolveCharacterName(fallbackName, charId, contactMap, charMap, reuseId
  * @param {Array} contactList 联系人表
  */
 function collectCharacters(store, versionSets, regionKey, characterList, contactList) {
-  const contactMap = new Map(contactList.map((c) => [c.id, c]));
-  const charMap = new Map(characterList.map((c) => [c.id, c]));
+  const contactMap = new Map(contactList.map((c) => [String(c.id), c]));
+  const charMap = new Map(characterList.map((c) => [String(c.id), c]));
 
   for (const { id, name, ver, reuse } of characterList) {
     if (typeof id !== 'string') continue;
