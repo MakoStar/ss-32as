@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "gen:character:id": "node scripts/node/gen-char-id/index.js"
+  }
+}

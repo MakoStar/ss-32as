@@ -24,14 +24,13 @@ jobs:
         with:
           node-version: '24'
           cache: 'pnpm'
-          cache-dependency-path: scripts/node/gen-char-id/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: scripts/node/gen-char-id
+        run:  pnpm install --filter @gen/character-id
 
       - name: Run script
-        run: node scripts/node/gen-char-id/index.js
+        run: pnpm gen:character:id
 
       - name: Commit and push changes
         run: |

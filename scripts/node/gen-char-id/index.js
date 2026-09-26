@@ -2,187 +2,204 @@ const path = require('path');
 const { LuaFactory } = require('wasmoon');
 const { writeFileSync, mkdirSync } = require('fs');
 
-/** 各地区数据源标识 */
-const REGIONS = ['CN', 'EN', 'JP', 'KR', 'TW'];
 
-/** 角色 id 匹配规则 只取 avg1 前缀的三位数字 */
-const CHAR_ID_PATTERN = /^avg1_(\d{3})$/;
+const REGION_CODES = ['CN', 'EN', 'JP', 'KR', 'TW'];
+const CHARACTER_ID_PATTERN = /^avg1_(\d{3})$/;
+const OUTPUT_FILENAME = 'characterid.json';
+const OUTPUT_DIR = path.join(process.cwd(), 'generated_data');
+mkdirSync(OUTPUT_DIR, { recursive: true });
+const OUTPUT_PATH = path.join(OUTPUT_DIR, OUTPUT_FILENAME);
+const REPO_BASE = 'https://github.com/MakoStar/ss-lua/raw/refs/heads/main/';
 
-/** 导出的 json 文件名 */
-const OUTPUT_FILE = 'characterid.json';
-const outputDir = path.join(process.cwd(), 'generated_data');
-mkdirSync(outputDir, { recursive: true });
-const outputPath = path.join(outputDir, 'characterid.json');
 
-/**
- * 构造某个地区的两个 lua 数据文件地址
- * @param {string} region 地区标识 如 CN EN
- * @returns {[URL, URL]} 角色表地址 联系人表地址
- */
-function buildConfigUrls(region) {
-  const repoBase = 'https://github.com/MakoStar/ss-lua/raw/refs/heads/main/';
-  const regionBase = new URL(`./Lua/Game/UI/Avg/_${region.toLowerCase()}/`, repoBase);
-  const characterUrl = new URL('./Preset/AvgCharacter.lua', regionBase);
-  const contactUrl = new URL('./Preset/AvgContacts.lua', regionBase);
-  return [characterUrl, contactUrl];
+function buildLuaFileUrls(regionCode) {
+  const regionBase = new URL(`./Lua/Game/UI/Avg/_${regionCode.toLowerCase()}/`, REPO_BASE);
+  return {
+    avgCharacterUrl: new URL('./Preset/AvgCharacter.lua', regionBase),
+    avgContactUrl: new URL('./Preset/AvgContacts.lua', regionBase),
+  };
 }
 
-/**
- * 下载文本 失败返回 null
- * @param {URL} url
- * @returns {Promise<string|null>}
- */
-async function fetchText(url) {
-  const res = await fetch(url);
-  if (!res.ok) {
-    console.error(`[fetch] ${res.status} ${res.statusText} ${url.href}`);
+
+async function fetchLuaText(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    console.error(`[fetch] ${response.status} | ${response.statusText} | ${url.href}`);
     return null;
   }
-  return res.text();
+  return response.text();
 }
 
-/**
- * 解析 lua 文本 失败返回 null
- * @param {object} lua 已经创建好的 lua 引擎
- * @param {string} code lua 源码
- * @returns {Promise<any|null>}
- */
-async function parseLua(lua, code) {
+
+async function evaluateLua(lua, source) {
   try {
-    return await lua.doString(code);
-  } catch (e) {
-    console.error(`[lua] parse error ${e.message}`);
+    return await lua.doString(source);
+  } catch (error) {
+    console.error(`[lua] parse error: ${error.message}`);
     return null;
   }
 }
 
-/**
- * 从联系人表里取角色名
- * @param {string} fallbackName 角色表里原本的名字
- * @param {string} charId 三位数字 id
- * @param {Map} contactMap 联系人 id 到联系人的映射
- * @param {Map} charMap 角色 id 到角色的映射
- * @param {string|number} reuseId 复用的角色 id
- * @returns {string}
- */
-function resolveCharacterName(fallbackName, charId, contactMap, charMap, reuseId) {
-  if (fallbackName !== '***') return fallbackName;
-  const contact = contactMap.get(charId);
+
+function resolveDisplayName(rawName, characterId, contactsById, regionCharactersById, reuseId) {
+  if (rawName !== '***') return rawName;
+  const contact = contactsById.get(characterId);
   if (contact?.name) return contact.name;
-  const reused = charMap.get(String(reuseId));
-  return reused?.name ?? '';
+  const reusedCharacter = regionCharactersById.get(String(reuseId));
+  return reusedCharacter?.name ?? '';
 }
 
-/**
- * 收集某个地区的角色数据到总表
- * @param {object} store 总表
- * @param {object} versionSets 每个角色的版本集合
- * @param {string} regionKey 地区小写标识
- * @param {Array} characterList 角色表
- * @param {Array} contactList 联系人表
- */
-function collectCharacters(store, versionSets, regionKey, characterList, contactList) {
-  const contactMap = new Map(contactList.map((c) => [String(c.id), c]));
-  const charMap = new Map(characterList.map((c) => [String(c.id), c]));
 
-  for (const { id, name, ver, reuse } of characterList) {
-    if (typeof id !== 'string') continue;
+function mergeRegionCharacters(charactersById, versionsByCharId, regionKey, regionCharacters, regionContacts) {
+  const contactsById = new Map(regionContacts.map((c) => [String(c.id), c]));
+  const regionCharactersById = new Map(regionCharacters.map((c) => [String(c.id), c]));
+  const unmatchedEntries = { ...charactersById };
 
-    const matched = id.match(CHAR_ID_PATTERN);
-    if (!matched) continue;
+  for (const { id: rawId, name: rawName, ver: rawVersion, reuse: reuseId } of regionCharacters) {
+    if (typeof rawId !== 'string') continue;
 
-    const charId = matched[1];
-    const contact = contactMap.get(charId);
+    const idMatch = rawId.match(CHARACTER_ID_PATTERN);
+    if (!idMatch) continue;
 
-    const charName = resolveCharacterName(name, charId, contactMap, charMap, reuse);
-    const charVer = (ver ?? contact?.ver) || '';
+    const characterId = idMatch[1];
+    const contact = contactsById.get(characterId);
+    delete unmatchedEntries[characterId];
 
-    if (!store[charId]) {
-      store[charId] = { id: charId };
-      versionSets[charId] = new Set();
+    const displayName = resolveDisplayName(
+      rawName,
+      characterId,
+      contactsById,
+      regionCharactersById,
+      reuseId
+    );
+
+    const resolvedVersion = (rawVersion ?? contact?.ver) || '';
+
+    if (!charactersById[characterId]) {
+      charactersById[characterId] = { id: Number(characterId) };
+      versionsByCharId[characterId] = new Set();
     }
 
-    store[charId][`${regionKey}Name`] = charName || '';
+    const entry = charactersById[characterId];
+    entry[`${regionKey}Name`] = displayName || '';
 
-    if (charVer) versionSets[charId].add(charVer);
+    if (!entry.findKeys) entry.findKeys = new Set();
+    if (rawId) entry.findKeys.add(rawId);
+    if (reuseId) entry.findKeys.add(reuseId);
+
+    if (resolvedVersion) {
+      versionsByCharId[characterId].add(resolvedVersion);
+    }
+  }
+
+  if (Object.keys(unmatchedEntries).length) {
+    console.log(`[${regionKey.toUpperCase()}] unmatched`, unmatchedEntries);
+    for (const [characterId, { findKeys }] of Object.entries(unmatchedEntries)) {
+      for (const lookupId of findKeys) {
+        const contact = contactsById.get(lookupId);
+        if (contact?.name) {
+          charactersById[characterId][`${regionKey}Name`] = contact.name;
+          break;
+        }
+        const reusedCharacter = regionCharactersById.get(String(lookupId));
+        if (reusedCharacter?.name) {
+          charactersById[characterId][`${regionKey}Name`] =
+            reusedCharacter.name;
+          break;
+        }
+      }
+    }
   }
 }
 
-/**
- * 把版本集合写回总表 相同去重 不同拼接
- * @param {object} store 总表
- * @param {object} versionSets 每个角色的版本集合
- */
-function applyVersions(store, versionSets) {
-  for (const [charId, set] of Object.entries(versionSets)) {
-    const list = [...set]
+
+function applyVersions(charactersById, versionsByCharId) {
+  for (const [characterId, versionSet] of Object.entries(versionsByCharId)) {
+    const sortedVersions = [...versionSet]
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
-    store[charId].ver = list.length <= 1 ? list[0] ?? '' : list.join(' / ');
+    charactersById[characterId].ver =
+      sortedVersions.length <= 1
+        ? sortedVersions[0] ?? ''
+        : sortedVersions.join(' / ');
   }
 }
 
-/**
- * 补齐所有地区名字字段 保证结构一致
- * @param {object} store 总表
- */
-function fillMissingNames(store) {
-  const regionKeys = REGIONS.map((r) => r.toLowerCase());
-  for (const entry of Object.values(store)) {
-    for (const key of regionKeys) {
-      entry[`${key}Name`] ??= '';
-    }
+
+function fillMissingRegionNames(charactersById) {
+  const regionNameKeys = REGION_CODES.map((code) => `${code.toLowerCase()}Name`);
+  for (const entry of Object.values(charactersById)) {
+    for (const key of regionNameKeys) entry[key] ??= '';
   }
 }
+
 
 (async () => {
-  const characters = {};
-  const versionSets = {};
+  if (!process.env.CI) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+  const charactersById = {};
+  const versionsByCharId = {};
 
   const factory = new LuaFactory();
   const lua = await factory.createEngine();
 
   try {
-    for (const region of REGIONS) {
-      const regionKey = region.toLowerCase();
-      const [characterUrl, contactUrl] = buildConfigUrls(region);
+    for (const regionCode of REGION_CODES) {
+      console.log('='.repeat(60));
+      const regionKey = regionCode.toLowerCase();
+      const { avgCharacterUrl, avgContactUrl } = buildLuaFileUrls(regionCode);
 
-      console.log(`[fetch] ${region} start`);
-
-      const [characterCode, contactCode] = await Promise.all([
-        fetchText(characterUrl),
-        fetchText(contactUrl),
+      console.log(`[${regionCode}] fetch lua start`);
+      const [characterSource, contactSource] = await Promise.all([
+        fetchLuaText(avgCharacterUrl),
+        fetchLuaText(avgContactUrl),
       ]);
 
-      if (!characterCode || !contactCode) {
-        console.warn(`[skip] ${region} fetch failed`);
+      if (!characterSource || !contactSource) {
+        console.warn(`[${regionCode}] fetch lua failed. skipping`);
         continue;
       }
 
-      const characterList = await parseLua(lua, characterCode);
-      const contactList = await parseLua(lua, contactCode);
+      const regionCharacters = await evaluateLua(lua, characterSource);
+      const regionContacts = await evaluateLua(lua, contactSource);
 
-      if (!Array.isArray(characterList) || !Array.isArray(contactList)) {
-        console.warn(`[skip] ${region} data is not array`);
+      if (!Array.isArray(regionCharacters) || !Array.isArray(regionContacts)) {
+        console.warn(`[${regionCode}] data is not array, skipping`);
         continue;
       }
 
-      collectCharacters(characters, versionSets, regionKey, characterList, contactList);
+      mergeRegionCharacters(
+        charactersById,
+        versionsByCharId,
+        regionKey,
+        regionCharacters,
+        regionContacts
+      );
 
-      console.log(`[ok] ${region} characters ${Object.keys(characters).length}`);
+      console.log(
+        `[${regionCode}] generated characters ${Object.keys(charactersById).length}`
+      );
     }
 
-    applyVersions(characters, versionSets);
-    fillMissingNames(characters);
+    applyVersions(charactersById, versionsByCharId);
+    fillMissingRegionNames(charactersById);
 
-    writeFileSync(outputPath, JSON.stringify(characters, null, 2));
+    writeFileSync(OUTPUT_PATH, 
+      JSON.stringify(
+        charactersById, 
+        (key, value) => (key === 'findKeys' ? undefined : value), 
+        2,
+      ),
+      { encoding: 'utf-8' }
+    );
 
-    console.log(`[done] total ${Object.keys(characters).length} written to ${outputPath}`);
+    console.log('='.repeat(60));
+    console.log(`[done] total ${Object.keys(charactersById).length} written to ${OUTPUT_PATH}`);
   } finally {
     lua.global.close();
   }
-})().catch((e) => {
-  console.error(e);
+})().catch((error) => {
+  console.error(error);
   process.exit(1);
 });

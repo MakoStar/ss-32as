@@ -1,4 +1,7 @@
 {
+  "name": "@gen/language-lqa",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
     "lua-in-js": "^2.2.5"
   }

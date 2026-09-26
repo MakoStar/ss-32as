@@ -1,4 +1,7 @@
 {
+  "name": "@gen/character-id",
+  "version": "1.0.0",
+  "private": true,
   "packageManager": "pnpm@10.12.4",
   "dependencies": {
     "wasmoon": "^1.16.0"
